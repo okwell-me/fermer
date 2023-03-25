@@ -15,6 +15,7 @@ def start_my_server():
     print('Stop')
 
 def process_data(data):
+    print(data.split(' ')[1])
     if len(data.split(' ')) > 1:
         message = data.split(' ')[1]
         message = message.split(';')
