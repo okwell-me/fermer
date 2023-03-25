@@ -9,7 +9,7 @@ def start_my_server():
         client_socket, address = server.accept()
         data = client_socket.recv(1024).decode('utf-8')
         process_data(data)
-        client_socket.send('OK')
+        client_socket.send('OK'.encode('utf-8'))
         client_socket.shutdown(socket.SHUT_WR)
     print('Stop')
 
