@@ -28,6 +28,7 @@ def process_data(data):
             print('system')
         with open("data.csv", mode="w", encoding='utf-8') as file:
             file_writer = csv.writer(file, delimiter=";", lineterminator="\r")
-            file_writer.writerow(message[1:len+1])
+            len = len+1
+            file_writer.writerow(message[1:len])
 
 start_my_server()
