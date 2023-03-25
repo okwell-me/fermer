@@ -14,11 +14,13 @@ def start_my_server():
     print('Stop')
 
 def process_data(data):
-    message_type = data.split(' ')[1]
+    message = data.split(' ')[1]
+    message = message.split(';')
+    msg_type = message[0]
     print('message type: ')
-    if message_type == 'DAT':
+    if msg_type == '/DAT':
         print('data')
-    if message_type == 'SYS':
+    if msg_type == '/SYS':
         print('system')
 
 start_my_server()
