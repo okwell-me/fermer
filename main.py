@@ -1,5 +1,8 @@
 import socket
 import csv
+import json
+import requests
+from datetime import datetime
 
 def start_my_server():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -14,21 +17,24 @@ def start_my_server():
         client_socket.shutdown(socket.SHUT_WR)
     print('Stop')
 
-def process_data(data):
-    print(data.split(' ')[1])
-    if len(data.split(' ')) > 1:
-        message = data.split(' ')[1]
-        message = message.split(';')
-        msg_count = len(message)
-        msg_type = message[0]
-        print('message type: ')
-        if msg_type == '/DAT':
-            print('data')
-        if msg_type == '/SYS':
-            print('system')
-        with open("data.csv", mode="w", encoding='utf-8') as file:
-            file_writer = csv.writer(file, delimiter=";", lineterminator="\r")
-            len = len+1
-            file_writer.writerow(message[1:len])
 
-start_my_server()
+def process_data(data):
+    if len(data.split(' ')) > 1:
+        message: str = data.split(' ')[1]
+        message = message.split(';')
+        msg_time = datetime.now().strftime('%H:%M:%S')
+        msg_len = len(message)
+        msg_type = message[0]
+        msg_from = message[1]
+
+        for i in range(2, msg_len):
+            message[i] = message[i].replace('.', ',')
+
+        str_msg = ' '.join(message[2:msg_len+1])
+        print('[' + msg_time + ']' + ' From ' + msg_from + ' got message: ' + str_msg)
+        message[1] = msg_time
+        with open(msg_from + '.csv', mode='a') as file:
+            file.write(msg_time + ';' + ';'.join(message[2:msg_len+1])+'\n')
+
+if __name__ == '__main__':
+    start_my_server()
