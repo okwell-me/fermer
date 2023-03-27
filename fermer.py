@@ -4,6 +4,7 @@ import threading
 
 str_to_send = '--no data--'
 
+
 def start_my_server():
     try:
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #213.189.201.189
@@ -18,16 +19,17 @@ def start_my_server():
 
             #data = client_socket.recv(1024).decode('utf-8')
             #process_data(address, data, client_socket)
-
             #client_socket.shutdown(socket.SHUT_WR)
     except KeyboardInterrupt:
         server.close()
     print('Stop')
 
+
 def client_handler(address, client_socket):
     data = client_socket.recv(1024).decode('utf-8')
     process_data(address, data, client_socket)
     client_socket.close()
+
 
 def process_data(address, data, client_socket):
     global str_to_send
@@ -45,7 +47,7 @@ def process_data(address, data, client_socket):
                     message[i] = message[i].replace('.', ',')
 
                 str_msg = ' '.join(message[2:msg_len+1])
-                str_to_send = str_msg
+                str_to_send = msg_time + '///' + str_msg
                 print(str(address[0]) + ' [' + msg_time + ']' + ' From ' + msg_from + ' got: ' + str_msg)
                 message[1] = msg_time
                 with open('/root/fermer/' + msg_from + '_' + datetime.now().strftime('%d-%m-%y') + '.csv', mode='a') as file:
